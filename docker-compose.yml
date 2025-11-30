@@ -1,0 +1,56 @@
+version: "3.9"
+
+services:
+  user-collection-service:
+    build:
+      context: .
+      dockerfile: user-collection-service/Dockerfile
+    container_name: user-collection-service
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+    depends_on:
+      - db
+
+  catalog-deck-service:
+    build:
+      context: .
+      dockerfile: catalog-deck-service/Dockerfile
+    container_name: catalog-deck-service
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      # 🎯 ADICIONE ESTA LINHA PARA ATIVAR O DEBUG 
+      LOGGING_LEVEL_ROOT: DEBUG 
+    depends_on:
+      - db
+
+  duel-service:
+    build:
+      context: .
+      dockerfile: duel-service/Dockerfile
+    container_name: duel-service
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: soulforged-db
+    restart: always
+    environment:
+      POSTGRES_USER: soulforged
+      POSTGRES_PASSWORD: soulforged
+      POSTGRES_DB: soulforged
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

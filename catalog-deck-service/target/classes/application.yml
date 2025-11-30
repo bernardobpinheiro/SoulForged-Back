@@ -1,0 +1,30 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: duel-service
+
+  datasource:
+    url: jdbc:h2:mem:dueldb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+# Ativa o console web do H2 para inspecionar os dados
+spring.h2.console:
+  enabled: true
+
+# Níveis de log
+logging:
+  level:
+    org.springframework: INFO
+    com.soulforged: DEBUG
